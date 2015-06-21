@@ -1,9 +1,28 @@
-## Please run the following commands before proceeding 
+## Please run the following commands before proceeding . Also Whenever you install any package please add to this file
+
+
+## Install pip (for installing python packages)
 sudo apt-get install pip
-sudo pip install rest_Framework
+sudo pip install django (check the version of django , it should be 1.8.2)
+
+## for restframework
+sudo pip install djangorestframework
+sudo pip install markdown       # Markdown support for the browsable API.
+sudo pip install django-filter  # Filtering support
+
+## for mysql database
 sudo apt-get install mysql-client
-sudo apt-get install mysql-server #Give password a that you will use in settings.py
-## Go into mysql client and create a database by using this command 
+sudo apt-get install mysql-server # Give password a that you will use in settings.py
+sudo apt-get install pip
+sudo apt-get install python-mysqldb 
+
+## Now you need to login in mysql client and create a database using username root and password you gave while installing mysql client
 CREATE DATABASE plovistdb CHARACTER SET utf8;
 
-sudo apt-get install python-mysqldb ## you need to make a mysql database check the credentials in settings.py
+
+
+
+
+
+
+
