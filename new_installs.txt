@@ -1,0 +1,6 @@
+## Please run the following commands before proceeding 
+sudo apt-get install pip
+sudo pip install rest_Framework
+sudo apt-get install mysql-client
+sudo apt-get install mysql-server
+sudo apt-get install python-mysqldb ## you need to make a mysql database check the credentials in settings.py
