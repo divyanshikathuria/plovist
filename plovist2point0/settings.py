@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'rest_framework',
     'plovist2point0',
+    'core',
 )
 
 MIDDLEWARE_CLASSES = (

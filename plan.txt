@@ -1,0 +1,9 @@
+1. Have to understand how django restframework works.
+2. Understand the basic database structure right now
+
+Main Models 
+
+class Pin
+class User
+class Profile
+class 
