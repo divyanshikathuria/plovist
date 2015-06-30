@@ -5,7 +5,7 @@ from permissions import IsAuthenticatedOrCreate
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from core.serializers import UserSerializer, GroupSerializer,SignUpSerializer
-from rest_framework import generics
+from rest_framework import generics, permissions
 from rest_framework.response import Response
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -24,19 +24,19 @@ class GroupViewSet(viewsets.ModelViewSet):
     serializer_class = GroupSerializer
 
 class SignUp(generics.CreateAPIView):
-    queryset = User.objects.all()
+    
     serializer_class = SignUpSerializer
-    permission_classes = (IsAuthenticatedOrCreate,)
+    permission_classes = (
+        permissions.AllowAny,
+    )
     def create(self, request):
         serializer = self.serializer_class(data=request.data)
 
         if serializer.is_valid():
-            User.objects.create_user(**serializer.validated_data)
-
+            user=User(username=serializer.data['username'])
+            user.set_password(serializer.data['password'])
+            user.save()
             return Response(serializer.validated_data)
 
-        return Response({
-            
-            'message': 'Account could not be created with received data.'
-        })
+        return Response(serializer.errors)	
 
