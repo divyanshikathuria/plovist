@@ -33,7 +33,10 @@ class SignUp(generics.CreateAPIView):
         serializer = self.serializer_class(data=request.data)
 
         if serializer.is_valid():
-            user=User(username=serializer.data['username'])
+            user=User(username=serializer.data['username'],
+                      first_name=serializer.data['first_name'],
+                      last_name=serializer.data['last_name'],
+                      email=serializer.data['email'])
             user.set_password(serializer.data['password'])
             user.save()
             return Response(serializer.validated_data)
