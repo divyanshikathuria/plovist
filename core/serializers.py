@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from django.core.validators import RegexValidator
+from rest_framework.exceptions import ValidationError
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -17,28 +17,22 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class SignUpSerializer(serializers.ModelSerializer):
     
    
-    password = serializers.CharField(write_only=True, required=False)
-    #confirm_password = serializers.CharField(write_only=True, required=False)
+    password = serializers.CharField(style={'input_type': 'password'})
+    confirm_password = serializers.CharField(style={'input_type': 'password'})
+    
     
     class Meta:
         model = User
-        fields = ( 'username','first_name','last_name','email', 'password')
-        extra_kwargs = {'password': {'write_only': True}}
-
-    def create(self, validated_data):
-        user = User(
-            email=validated_data['email'],
-            username=validated_data['username']
-        )
-         
-        password = validated_data.get('password', None)
-        #confirm_password = validated_data['confirm_password']
-
-        #if password and confirm_password and password == confirm_password:
-        user.set_password(password)
-        user.save()
+        fields = ( 'username','first_name','last_name','email', 'password','confirm_password')
+    
+    def validate(self, attrs):
+        attrs = super(SignUpSerializer, self).validate(attrs)
+        if attrs['confirm_password'] != attrs['password']:
+            raise serializers.ValidationError('Passwords do not match.')
+        return attrs
+    
+    
         
-        return user
+        
 
-     
            
