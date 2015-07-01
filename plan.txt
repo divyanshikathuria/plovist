@@ -1,9 +1,33 @@
-1. Have to understand how django restframework works.
-2. Understand the basic database structure right now
 
-Main Models 
+=============
 
-class Pin
-class User
-class Profile
-class 
+Main Modules -- BackEnd
+
+Login -- Username/Email, Password
+Signup --- Username, Email, Password, Password Confirm, Agree to Terms 
+-- Welcome Mail
+-- Email Confirmation
+-- Forgot Password
+Profile -- Full Name, about, location, website, photo, open_for_design_flag, phone_number, profile_skills, profile_score, 
+Profile_Extra-- check profiles/models.py
+Post-- check pins/models.py
+Comments -- Need to migrate 
+Album-- New
+Shopping Cart -- check core/models.py
+Opportunity -- check core/models.py
+Job Application -- check core/models.py
+Blog Entry --New -- Integrate a Django App / Tumblr blog
+
+==============
+Main Modules -- Front End
+"World's Best Online Art Gallery"
+Single Page App -- 
+Main Pages
+	Landing Page
+	Image Page
+	Profile Page
+Navigation	
+React to Create Components
+Flux to get data
+
+
