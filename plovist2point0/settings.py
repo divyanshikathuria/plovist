@@ -50,7 +50,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.security.SecurityMiddleware',
+ 
 )
 
 ROOT_URLCONF = 'plovist2point0.urls'
@@ -82,7 +82,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'plovistdb',
         'USER': 'root',
-        'PASSWORD': 'Plovist_!402',
+        'PASSWORD': 'divya27',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
