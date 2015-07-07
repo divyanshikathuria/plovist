@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
-
+from models import Profile
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -19,20 +19,37 @@ class SignUpSerializer(serializers.ModelSerializer):
    
     password = serializers.CharField(style={'input_type': 'password'})
     confirm_password = serializers.CharField(style={'input_type': 'password'})
-    
+    terms = serializers.BooleanField(label="I agree to the Terms & Conditions")
     
     class Meta:
         model = User
-        fields = ( 'username','first_name','last_name','email', 'password','confirm_password')
+        fields = ( 'username','email', 'password','confirm_password','terms')
     
     def validate(self, attrs):
         attrs = super(SignUpSerializer, self).validate(attrs)
         if attrs['confirm_password'] != attrs['password']:
             raise serializers.ValidationError('Passwords do not match.')
+        if attrs['terms']==False:
+            raise serializers.ValidationError('You must accept the Terms And Conditions.')
         return attrs
     
+class ProfileSerializer(serializers.ModelSerializer):
+     
+     class Meta:
+       model = Profile
+       fields = ( 'name', 'about', 'location', 'website', 'image','open_for_design', 'phone_number', 'profile_scores' )
+    
+        
+
+
+
+
+
+
+
     
         
         
 
            
+
