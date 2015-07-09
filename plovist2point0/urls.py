@@ -34,8 +34,9 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^', include(router.urls)),
     url(r'^sign_up/$', views.SignUp.as_view(), name="sign_up"),
-    url(r'^profile/(?P<pk>\d+)/', views.Profile.as_view(), name="get"),
-    url(r'^profile/(?P<pk>\d+)/', views.Profile.as_view(), name="update"),
+    url(r'^profile/$', views.Profile.as_view()),
+    
+    url(r'^profile/(?P<pk>\d+)/', views.Profile_Update.as_view(), name="update"),
 
     
 ]

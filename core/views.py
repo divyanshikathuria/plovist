@@ -7,7 +7,7 @@ from rest_framework import generics, permissions
 from rest_framework.response import Response
 from django.core.mail import send_mail
 from django.shortcuts import redirect
-
+from rest_framework import status
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -50,34 +50,67 @@ class SignUp(generics.CreateAPIView):
 	        send_mail(subject, message, 'admin@plovist.com', [user.email], fail_silently=True)
             obj = serializer.validated_data
             if registered==True:
-                return redirect('/api-auth/login')
+                return redirect('/')
             return Response(serializer.validated_data)
          
         return Response(serializer.errors)	
 
-class Profile(generics.RetrieveUpdateAPIView):
+class IsOwner(permissions.BasePermission):
+    """
+    Custom permission to only allow owners of profile to view or edit it.
+    """
+    def has_object_permission(self, request, view, obj):
+        return obj.user == request.user
+
+
+class Profile(generics.CreateAPIView):
+
+    """
+    API endpoint that allows to create profile.
+    """
+    
+    serializer_class = ProfileSerializer
+    permission_classes = (
+        permissions.IsAuthenticated,
+    )
+    
+'''class Profile_Update(generics.RetrieveUpdateAPIView):
 
     """
     API endpoint that allows to retrieve and update Profile.
     """
-    queryset = Profile.objects.all()
-    serializer_class=ProfileSerializer
+    
+    serializer_class = ProfileSerializer
+    def get_queryset(self):
+        """
+        This view should return a list of all the purchases
+        for the currently authenticated user.
+        """
+        
+        user=User.objects.get(id=self.request.user.id)
+        return UserProfile.objects.get(user=user)
+    permission_classes = (
+        permissions.IsAuthenticated,IsOwner
+    )
+
+'''
+  
+class Profile_Update(generics.RetrieveUpdateAPIView):
+
+    """
+    API endpoint that allows to retrieve and update Profile.
+    """
+    
+    serializer_class = ProfileSerializer
+    def get_queryset(self):
+        """
+        This view should return a list of all the purchases
+        for the currently authenticated user.
+        """
+        
+        
+        return UserProfile.objects.all()
     permission_classes = (
         permissions.IsAuthenticated,
     )
-    def get_object(self,pk):
         
-        return Profile.objects.get(id=pk)
-
-    def get(self,request,pk):
-    	profile = self.get_object(pk)
-    	serializer = ProfileSerializer(profile)
-    	return Response(serializer.data)
-
-    def update(self, request,pk):
-    	profile = self.get_object(pk)
-        serializer = ProfileSerializer(profile,data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors)
