@@ -55,13 +55,13 @@ class SignUp(generics.CreateAPIView):
          
         return Response(serializer.errors)	
 
-class IsOwner(permissions.BasePermission):
+'''class IsOwner(permissions.BasePermission):
     """
     Custom permission to only allow owners of profile to view or edit it.
     """
     def has_object_permission(self, request, view, obj):
-        return obj.user == request.user
-
+        return obj[0] == self.request.user
+'''
 
 class Profile(generics.CreateAPIView):
 
@@ -74,26 +74,7 @@ class Profile(generics.CreateAPIView):
         permissions.IsAuthenticated,
     )
     
-'''class Profile_Update(generics.RetrieveUpdateAPIView):
 
-    """
-    API endpoint that allows to retrieve and update Profile.
-    """
-    
-    serializer_class = ProfileSerializer
-    def get_queryset(self):
-        """
-        This view should return a list of all the purchases
-        for the currently authenticated user.
-        """
-        
-        user=User.objects.get(id=self.request.user.id)
-        return UserProfile.objects.get(user=user)
-    permission_classes = (
-        permissions.IsAuthenticated,IsOwner
-    )
-
-'''
   
 class Profile_Update(generics.RetrieveUpdateAPIView):
 
@@ -101,16 +82,12 @@ class Profile_Update(generics.RetrieveUpdateAPIView):
     API endpoint that allows to retrieve and update Profile.
     """
     
+    
     serializer_class = ProfileSerializer
-    def get_queryset(self):
-        """
-        This view should return a list of all the purchases
-        for the currently authenticated user.
-        """
-        
-        
-        return UserProfile.objects.all()
     permission_classes = (
         permissions.IsAuthenticated,
     )
-        
+
+    def get_queryset(self):
+        a=self.request.user
+        return UserProfile.objects.filter(user__username=a)
